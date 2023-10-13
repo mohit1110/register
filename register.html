@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid green;
+            width: fit-content;
+            margin: auto;
+        }
+        
+        form {
+            border: 2px solid green;
+            border-radius: 20px;
+            box-sizing: border-box;
+            width: 500px;
+            padding: 20px;
+            margin: auto;
+            margin-top: 50px;
+            overflow: hidden;
+        }
+        
+        #progress {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        #progress-bar {
+            position: absolute;
+            background: lightseagreen;
+            height: 5px;
+            width: 0%;
+            top: 50%;
+            left: 0;
+            transition: all 1s;
+        }
+        
+        #progress-num {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            transition: all 1s;
+        }
+        
+        #progress-num::before {
+            content: "";
+            background-color: lightgray;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 5px;
+            width: 100%;
+            z-index: -1;
+        }
+        
+        #progress-num .step {
+            border: 3px solid lightgray;
+            border-radius: 100%;
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            background-color: #fff;
+            font-family: sans-serif;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+            transition-delay: 0.5s;
+        }
+        
+        #progress-num .step.active {
+            border-color: lightseagreen;
+            background-color: lightseagreen;
+            color: #fff;
+            transition-delay: 0.5s;
+        }
+        
+        #progress-num .step.invalid {
+            border-color: rgb(223, 10, 10);
+            background-color: rgb(223, 10, 10);
+            color: #fff;
+            transition-delay: 0.5s;
+        }
+        
+        .steps {
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            flex-direction: column;
+            font-family: Arial, Helvetica, sans-serif;
+            position: absolute;
+        }
+        
+        #stepsbox {
+            position: relative;
+            height: 600px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 50px;
+        }
+        
+        #step1>input {
+            height: 22px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        
+        #step1 {
+            position: absolute;
+            transition: all 0.7s;
+        }
+        
+        #step2 {
+            position: absolute;
+            transition: all 0.7s;
+        }
+        
+        #step3 {
+            position: absolute;
+            transition: all 0.7s;
+        }
+        
+        #step4 {
+            position: absolute;
+            transition: all 0.7s;
+        }
+        
+        #dob {
+            height: 28px;
+            margin: 10px 0px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        #genderbox {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            margin-top: 10px;
+            font-weight: 600;
+            accent-color: green;
+        }
+        
+        #genderbox>label {
+            cursor: pointer;
+        }
+        
+        #maritalstatusbox>select {
+            width: 50%;
+            height: 30px;
+            font-size: 18px;
+            border-width: 2px;
+            padding: 3px;
+            border-radius: 5px;
+            margin: 5px 0px 20px;
+            cursor: pointer;
+        }
+        
+        #addressbox {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 5px 0px 20px;
+        }
+        
+        #addressbox>input {
+            flex-basis: 45%;
+            margin: 5px;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 2px;
+            height: 25px;
+            font-size: 16px;
+        }
+        
+        #address {
+            flex-basis: 94% !important;
+        }
+        
+        .userinput {
+            width: 90%;
+            height: 25px;
+            font-size: 15px;
+            border-radius: 5px;
+            margin: 5px 0px 20px;
+        }
+        
+        .userselect {
+            width: 90%;
+            height: 25px;
+            border-width: 2px;
+            font-size: 15px;
+            border-radius: 5px;
+            margin: 5px 0px 20px;
+            cursor: pointer;
+        }
+        
+        #totalexperience {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        #totalexperience span {
+            width: 50%
+        }
+        
+        #totalexperience input {
+            margin: 5px;
+            width: 30%;
+        }
+        
+        #workinformationbox {
+            overflow: auto;
+            height: 230px;
+        }
+        
+        .workinfo {
+            margin-bottom: 20px;
+        }
+        
+        .workdate {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        
+        .workdate>span {
+            flex-basis: 40%;
+        }
+        
+        .workdate input {
+            border-width: 2px;
+            border-radius: 5px;
+            padding: 2px;
+        }
+        
+        #addwork {
+            border: 3px solid blueviolet;
+            background-color: rgb(212, 167, 253);
+            width: fit-content;
+            padding: 7px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        #addwork:hover {
+            background-color: rgb(102, 0, 192);
+            color: white;
+        }
+        
+        #about {
+            margin-top: 5px;
+            border: 2px solid gray;
+            height: 60px;
+        }
+        
+        .buttonbox {
+            user-select: none;
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            font-family: ui-monospace, "SFMono-Regular", "Menlo, Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+            font-size: 17px;
+            padding: 1em 2.7em;
+            font-weight: 500;
+            background: #1F2937;
+            color: white;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.6em;
+            width: 50%;
+            margin: auto;
+            margin-top: 100px;
+            cursor: pointer;
+        }
+        
+        .gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            border-radius: 0.6em;
+            margin-top: -0.25em;
+            background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+        }
+        
+        .label {
+            position: relative;
+            top: -1px;
+        }
+        
+        .transition {
+            transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            transition-duration: 300ms;
+            background-color: rgba(22, 218, 152, 0.849);
+            border-radius: 9999px;
+            width: 0;
+            height: 0;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        button:hover .transition {
+            width: 14em;
+            height: 14em;
+        }
+        
+        button:active {
+            transform: scale(0.97);
+        }
+        
+        .button {
+            font-size: 17px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgb(56, 56, 56) 0%, rgb(36, 36, 36) 66%, rgb(41, 41, 41) 100%);
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 2px;
+            font-weight: 700;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .button span {
+            border-radius: 10px;
+            padding: 0.8em 1.3em;
+            padding-right: 1.2em;
+            text-shadow: 0px 0px 20px #4b4b4b;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: inherit;
+            transition: all 0.3s;
+            background-color: rgb(29, 29, 29);
+            background-image: radial-gradient(at 95% 89%, rgb(15, 15, 15) 0px, transparent 50%), radial-gradient(at 0% 100%, rgb(17, 17, 17) 0px, transparent 50%), radial-gradient(at 0% 0%, rgb(29, 29, 29) 0px, transparent 50%);
+        }
+        
+        .button:hover span {
+            background-color: rgb(26, 25, 25);
+        }
+        
+        .button-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-conic-gradient(rgb(48, 47, 47) 0.0000001%, rgb(51, 51, 51) 0.000104%) 60% 60%/600% 600%;
+            filter: opacity(10%) contrast(105%);
+            -webkit-filter: opacity(10%) contrast(105%);
+        }
+        
+        .button svg {
+            width: 15px;
+            height: 15px;
+        }
+        
+        #backbtn svg {
+            rotate: 180deg;
+        }
+        
+        .button:hover .transition {
+            width: 14em;
+            height: 14em;
+        }
+        
+        .button:active {
+            transform: scale(0.97);
+        }
+        
+        @media only screen and (max-width:500px) {
+            form {
+                width: 90vw;
+            }
+            #addressbox>input {
+                flex-basis: 94%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>
+        Register
+    </h1>
+    <form action="register.php" method="post" enctype="multipart/form-data">
+        <div id="progress">
+            <div id="progress-bar"></div>
+            <ul id="progress-num">
+                <li class="step active">1</li>
+                <li class="step">2</li>
+                <li class="step">3</li>
+                <li class="step">4</li>
+            </ul>
+        </div>
+        <div id="stepsbox">
+            <div class="steps" id="step1">
+                <span>Frist Name:</span>
+                <input type="text" id="firstname" name="firstname" placeholder="First Name" required>
+                <span>Last Name:</span>
+                <input type="text" id="lastname" name="lastname" placeholder="Last Name" required>
+                <span>Email:</span>
+                <input type="email" id="email" name="email" placeholder="Email">
+                <span>Phone:</span>
+                <input type="text" id="phone" name="phone" placeholder="Phone Number" title="10 digit number" required>
+                <span>Password:</span>
+                <input type="password" id="pass" name="password" placeholder="Password" title="Minimum 8 characters and a combination of small letter, capital letter, number and special character" required>
+            </div>
+            <div class="steps" id="step2" style="left: 500px;">
+                <span>DOB:
+                    <input type="date" id="dob" name="dob" required>                                        
+                </span>
+
+                <span>
+                    Gender:
+                    <div id="genderbox">
+                        <label>                    
+                            Male<input type="radio" name="gender" value="male" required checked>
+                        </label>
+                        <label>
+                            Female<input type="radio" name="gender" value="female" required> 
+                        </label>
+                        <label>
+                            Other<input type="radio" name="gender" value="other" required>
+                        </label>
+                    </div>
+                </span>
+
+                <span>Marital Status:
+                    <div id="maritalstatusbox">
+                        <select name="maritalstatus" id="maritalstatus" required>                            
+                            <option value="unmarried">Unmarried</option>
+                            <option value="married">Married</option>                            
+                        </select>
+                    </div>
+                </span>
+
+                <span>Parmanent Address:
+                    <div id="addressbox">
+                        <input type="text" name="address" id="address" placeholder="Address" required>
+                        <input type="text" name="country" id="country" placeholder="Country" required>
+                        <input type="text" name="state" id="state" placeholder="State" required>
+                        <input type="text" name="city" id="city" placeholder="City" required>
+                        <input type="number" name="zipcode" id="zipcode" placeholder="Zipcode" required>
+                    </div>
+                </span>
+            </div>
+
+            <div class="steps" id="step3" style="left: 500px;">
+                <div>Higher Education:
+                    <select class="userselect" name="highereducation" id="highereducation" required>                                                
+                        <option value="matric">Matric</option>
+                        <option value="undergraduate">Undergraduate</option>
+                        <option value="graduate">Graduate</option>
+                        <option value="post Graduate">Post Graduate</option>
+                    </select>
+                </div>
+                <div>
+                    School or University:
+                    <input type="text" class="userinput" name="university" id="university" placeholder="School or University Name" required>
+                </div>
+                <div>
+                    Work Status:
+                    <select class="userselect" name="workstatus" id="workstatus" required onclick="totalexperience()">                        
+                        <option value="fresher">Fresher</option>
+                        <option value="experienced" >Experienced</option>
+                    </select>
+                </div>
+                <div id="experienceinformation" style="display: none;">
+                    <span>Total Experience:</span>
+                    <div id="totalexperience">
+                        <span>
+                            Years
+                            <input class="userinput" type="number" name="totalexpyears" id="totalexpyears">
+                        </span>
+
+                        <span>
+                            Months
+                            <input class="userinput" type="number" name="totalexpmonths" id="totalexpmonths">
+                        </span>
+                    </div>
+                    <div id="workinformationbox">
+                        <div class="workinfo" id="work1_information">
+                            <span>
+                                Organization:
+                                <input class="userinput" type="text" name="work1_organization" id="work1_organization" placeholder="Organisation Name">
+                            </span>
+                            <div class="workdate">
+                                <span>
+                                    Start Date
+                                    <input type="date" name="work1_organization_start" id="work1_organization_start" >
+                                </span>
+                                <span>
+                                    End Date
+                                    <input type="date" name="work1_organization_end" id="work1_organization_end">
+                                </span>
+                            </div>
+                            <div>
+                                Position
+                                <input class="userinput" type="text" name="work1_organization_position" id="work1_organization_position" placeholder="Position Name">
+                            </div>
+                        </div>
+                        <input type="hidden" name="worknumber" id="worknumber" value="1">
+                    </div>
+                    <div id="addwork" onclick="addwork()">Add Work</div>
+                </div>
+            </div>
+
+            <div class="steps" id="step4" style="left: 500px;">
+                <div>
+                    Resume Headline:
+                    <input class="userinput" type="text" name="resumeheadline" id="resumeheadline" required>
+                </div>
+                <div>
+                    Key Skills:
+                    <input class="userinput" type="text" name="keyskills" id="keyskills" pattern="[a-zA-Z,\|]+" required>
+                </div>
+                <div>
+                    Current CTC:
+                    <input class="userinput" type="number" name="currentctc" id="currentctc">
+                </div>
+                <div>
+                    Few line about yourself:
+                    <textarea class="userinput" name="about" id="about" cols="30" rows="5" minlength="50" required></textarea>
+                </div>
+                <div>
+                    Upload Resume:
+                    <input class="userinput" type="file" name="resumeupload" id="" accept=".doc,.docx,.pdf" required>
+                </div>
+                <button id="formsubmitbtn" disabled>
+                    <span class="transition"></span>
+                    <span class="gradient"></span>
+                    <span class="label">SUBMIT</span>
+                </button>
+
+
+            </div>
+        </div>
+        <div class="buttonbox">
+            <div class="button" onclick="backstep()" id="backbtn" style="visibility: hidden;">
+                <div class="button-overlay"></div>
+                <span id="backbtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 53 58" height="58" width="53">
+                        <path stroke-width="9" stroke="currentColor" d="M44.25 36.3612L17.25 51.9497C11.5833 55.2213 4.5 51.1318 4.50001 44.5885L4.50001 13.4115C4.50001 6.86824 11.5833 2.77868 17.25 6.05033L44.25 21.6388C49.9167 24.9104 49.9167 33.0896 44.25 36.3612Z"></path>
+                    </svg>
+                    Back                    
+                </span>
+            </div>
+            <div class="button" onclick="validate()" id="nextbtn">
+                <div class="button-overlay"></div>
+                <span>Next 
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 53 58" height="58" width="53">
+                        <path stroke-width="9" stroke="currentColor" d="M44.25 36.3612L17.25 51.9497C11.5833 55.2213 4.5 51.1318 4.50001 44.5885L4.50001 13.4115C4.50001 6.86824 11.5833 2.77868 17.25 6.05033L44.25 21.6388C49.9167 24.9104 49.9167 33.0896 44.25 36.3612Z"></path>
+                    </svg>
+                </span>
+            </div>
+
+
+        </div>
+
+    </form>
+
+    <script>
+        step = 1;
+
+        function validate() {
+
+            if (step == 1)
+                step1validate();
+            else if (step == 2)
+                step2validate();
+            else if (step == 3)
+                step3validate();
+
+
+        }
+
+        function step1validate() {
+            firstname = document.getElementById("firstname");
+            lastname = document.getElementById("lastname");
+            email = document.getElementById("email");
+            phone = document.getElementById("phone");
+            pass = document.getElementById("pass");
+
+            firstnamevalid = firstname.value;
+            lastnamevalid = lastname.value;
+            emailvalid = email.value;
+            phonevalid = phone.value;
+            passvalid = pass.value;
+
+            firstnamevalidflag = 0;
+            lastnamevalidflag = 0;
+            emailvalidflag = 0;
+            phonevalidflag = 0;
+            passvalidflag = 0;
+
+
+
+            if (firstnamevalid.search(/^[a-z A-Z]+$/) == -1) {
+
+                firstname.style = "border:2px solid red";
+            } else {
+                firstname.style = "border:2px solid green";
+                firstnamevalidflag = 1;
+
+            }
+
+            if (lastnamevalid.search(/^[a-z A-Z]+$/) == -1) {
+                lastname.style = "border:2px solid red";
+            } else {
+                lastname.style = "border:2px solid green";
+                lastnamevalidflag = 1;
+            }
+
+            if (emailvalid.length != 0) {
+                if (emailvalid.search(/^[^\.][A-Z a-z 0-9 \.]+@[A-Z a-z 0-9]+\.[A-Z a-z]+$/) == -1) {
+                    email.style = "border:2px solid red";
+                } else {
+                    email.style = "border:2px solid green";
+                    emailvalidflag = 1;
+                }
+            } else {
+                emailvalidflag = 1;
+                email.style = "border:2px solid gray";
+            }
+
+
+            if (phonevalid.search(/[^0-9]/) == -1 && phonevalid.length == 10) {
+                phone.style = "border:2px solid green";
+                phonevalidflag = 1;
+            } else {
+                phone.style = "border:2px solid red";
+            }
+
+
+            if (passvalid.search(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z](?=.*[!@#$%&*]))\S{8,}/) == -1) {
+                pass.style = "border:2px solid red";
+            } else {
+                pass.style = "border:2px solid green";
+                passvalidflag = 1;
+            }
+
+            if (firstnamevalidflag && lastnamevalidflag && emailvalidflag && phonevalidflag && passvalidflag) {
+                nextstep();
+            }
+
+        }
+
+        function step2validate() {
+            dob = document.getElementById("dob");
+            address = document.getElementById("address");
+            country = document.getElementById("country");
+            state = document.getElementById("state");
+            city = document.getElementById("city");
+            zipcode = document.getElementById("zipcode");
+
+            validflag = 0;
+
+            if (dob.value.length == 0) {
+                dob.style = "border-color: red;";
+            } else {
+                dob.style = "border-color: gray;";
+                validflag++;
+            }
+
+            if (address.value.length == 0) {
+                address.style = "border-color: red;";
+            } else {
+                address.style = "border-color: gray;";
+                validflag++;
+            }
+
+            if (country.value.length == 0) {
+                country.style = "border-color: red;";
+            } else {
+                country.style = "border-color: gray;";
+                validflag++;
+            }
+
+            if (state.value.length == 0) {
+                state.style = "border-color: red;";
+            } else {
+                state.style = "border-color: gray;";
+                validflag++;
+            }
+
+            if (city.value.length == 0) {
+                city.style = "border-color: red;";
+            } else {
+                city.style = "border-color: gray;";
+                validflag++;
+            }
+
+            if (zipcode.value.length == 0) {
+                zipcode.style = "border-color: red;";
+            } else {
+                zipcode.style = "border-color: gray;";
+                validflag++;
+            }
+
+            if (validflag == 6) {
+                nextstep();
+            }
+        }
+
+        function step3validate() {
+            university = document.getElementById("university");
+
+            if (university.value.length == 0) {
+                university.style = "border-color: red;";
+            } else {
+                university.style = "border-color: gray;";
+                nextstep();
+            }
+
+
+
+        }
+
+        function totalexperience() {
+            workstatus = document.getElementById("workstatus").value;
+            if (workstatus == "experienced") {
+                document.getElementById("experienceinformation").style.display = "block";
+            } else {
+                document.getElementById("experienceinformation").style.display = "none";
+            }
+        }
+        work = 1;
+
+        function addwork() {
+            work++;
+            document.getElementById("worknumber").value = work;
+            infobox = document.getElementById("workinformationbox");
+            newworkinfo = document.createElement("div");
+            newworkinfo.innerHTML = ` <div class="workinfo" id="work` + work + `_information">
+                            <span>
+                                Organization:
+                                <input class="userinput" type="text" name="work` + work + `_organization" id="work` + work + `_organization" placeholder="Organisation Name" required>
+                            </span>
+                            <div class="workdate">
+                                <span>
+                                    Start Date
+                                    <input type="date" name="work` + work + `_organization_start" id="work` + work + `_organization_start" required>
+                                </span>
+                                <span>
+                                    End Date
+                                    <input type="date" name="work` + work + `_organization_end" id="work` + work + `_organization_end" required>
+                                </span>
+                            </div>
+                            <div>
+                                Position
+                                <input class="userinput" type="text" name="work` + work + `_organization_position" id="work` + work + `_organization_position" placeholder="Position Name" required>
+                            </div>
+                        </div>`;
+            infobox.append(newworkinfo);
+        }
+
+
+        Nextbtn = document.getElementById("nextbtn");
+        Backbtn = document.getElementById("backbtn");
+        progressBar = document.getElementById("progress-bar");
+        steps = document.querySelectorAll(".step");
+        let active = 1;
+
+        function nextstepprogress() {
+            active++;
+            if (active > steps.length) {
+                active = steps.length;
+            }
+            updateProgress();
+        }
+
+        function backstepprogress() {
+            active--;
+            if (active < 1) {
+                active = 1;
+            }
+            updateProgress();
+        }
+
+        function updateProgress() {
+            steps.forEach((step, i) => {
+                if (i < active) {
+                    step.classList.add("active");
+                } else {
+                    step.classList.remove("active");
+                }
+            });
+            progressBar.style.width = ((active - 1) / (steps.length - 1)) * 100 + "%";
+            if (active === 1) {
+                Backbtn.style = "visibility: hidden;";
+            } else if (active === steps.length) {
+                Nextbtn.style = "visibility: hidden;";
+            } else {
+                Backbtn.style = "visibility: visible;";
+                Nextbtn.style = "visibility: visible;";
+            }
+        }
+
+        function nextstep() {
+            if (step < 4) {
+                document.getElementById("step" + step).style = "right:500px;";
+                document.getElementById("step" + (step + 1)).style = "left:0px;";
+                nextstepprogress();
+                step++;
+            }
+            if (step == 4) {
+                document.getElementById("formsubmitbtn").disabled = false;
+            }
+        }
+
+        function backstep() {
+            if (step > 1) {
+                document.getElementById("step" + (step - 1)).style = "right:0px;";
+                document.getElementById("step" + (step)).style = "left:500px;";
+                backstepprogress();
+                step--;
+            }
+            if (step == 3) {
+                document.getElementById("formsubmitbtn").disabled = true;
+            }
+
+        }
+    </script>
+
+</body>
+
+</html>
